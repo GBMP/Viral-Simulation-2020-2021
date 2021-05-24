@@ -31,7 +31,7 @@ const int SUBJECT_RADIUS = 2;
 
 int main() {
     //Set LOCKSTRAT or REGSTRAT as the first argument in the Simulator class to set the strategy
-    corsim::Simulation s(corsim::LOCKSTRAT,SIM_WIDTH,SIM_HEIGHT,std::make_unique<corsim::HTMLCanvas>(30,150,SIM_WIDTH,SIM_HEIGHT),
+    corsim::Simulation s(corsim::REGSTRAT,SIM_WIDTH,SIM_HEIGHT,std::make_unique<corsim::HTMLCanvas>(30,150,SIM_WIDTH,SIM_HEIGHT),
         std::make_unique<corsim::ChartJSHandler>());
 
     //Code to randomly generate certain numbers, which is done by using certain distributions
@@ -54,7 +54,7 @@ int main() {
 
         if(i == SUBJECT_COUNT-1)
         {
-            su.infect();
+            su.infect(true);
         }
 
         s.add_subject(std::move(su));

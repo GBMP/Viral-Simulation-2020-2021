@@ -38,14 +38,21 @@ class Subject
         void set_dx(double dx);
         void set_dy(double dy);
         bool infected();
-        void infect();
+        void infect(bool infect);
         double angle();
         double speed();
+        bool immune();
+        void setReady(int count);
+        void setImmune(int count);
+        void setCurrentCount(int count);
         void setTrajectory(MovementStrategy *strat, double dt);
+
     private:
         double _x = 0,_y = 0, _dx = 0, _dy = 0;
         bool _infected = false;
         int _radius = 0;
+        int _currentCount = 0;
+        bool _immune = false;
 };
 
 };

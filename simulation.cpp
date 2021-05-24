@@ -69,6 +69,11 @@ void Simulation::tick()
         wall_collision(s);
     }
 
+    for(Subject& s : _subjects)
+    {
+        subject_better(s);
+    }
+
     for(int i = collision_checker.size()-1; i < collision_checker.size(); i--)
     {
         Subject* current_checking = collision_checker.at(i);
@@ -161,16 +166,29 @@ double distance(Subject& s1, Subject& s2)
     return sqrt(pow(s1.x() - s2.x(),2) + pow(s1.y() - s2.y(),2));
 }
 
+void Simulation::subject_better(Subject& s)
+{
+    if(s.infected()){
+        s.setImmune(counter);
+    }
+
+    if(s.immune()){
+        s.setReady(counter);
+    }
+}
+
 void Simulation::subject_collision(Subject& s1, Subject& s2)
 {
     double dist = distance(s1, s2);
 
     if(dist < s1.radius() + s2.radius())
     {
-        if(s1.infected() || s2.infected())
+        if((s1.infected() || s2.infected()) && (!s1.immune() || !s2.immune()))
         {
-            s1.infect();
-            s2.infect();
+            s1.infect(true);
+            s1.setCurrentCount(counter);
+            s2.infect(true);
+            s2.setCurrentCount(counter);
         }        
 
         double theta1 = s1.angle();

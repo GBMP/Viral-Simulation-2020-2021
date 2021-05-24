@@ -78,9 +78,14 @@ bool Subject::infected()
     return this->_infected;
 }
 
-void Subject::infect()
+bool Subject::immune()
 {
-    this->_infected = true;
+    return this->_immune;
+}
+
+void Subject::infect(bool infect)
+{
+    this->_infected = infect;
 }
 
 double Subject::angle()
@@ -91,6 +96,30 @@ double Subject::angle()
 double Subject::speed()
 {
     return sqrt(_dx * _dx + _dy * _dy);
+}
+
+void Subject::setCurrentCount(int count)
+{
+    this->_currentCount = count;
+}
+
+void Subject::setImmune(int count)
+{
+    if(count - _currentCount == 50)
+    {
+        this->_immune = true;
+        this->_infected = false;
+        _currentCount = 1;
+    }
+}
+
+void Subject::setReady(int count)
+{
+    if(count - _currentCount == 75)
+    {
+        this->_immune = false;
+        _currentCount = 1;
+    }
 }
 
 void Subject::setTrajectory(MovementStrategy *strat, double dt)
