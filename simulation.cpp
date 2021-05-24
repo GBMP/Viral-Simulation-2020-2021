@@ -67,10 +67,6 @@ void Simulation::tick()
         collision_checker.emplace_back(&s);
 
         wall_collision(s);
-    }
-
-    for(Subject& s : _subjects)
-    {
         subject_better(s);
     }
 
@@ -100,6 +96,7 @@ void Simulation::tick()
 
         s.setTrajectory(strat, dt);
         i++;
+
         if(s.infected())
         {
             numberInfected++;
@@ -131,6 +128,10 @@ void Simulation::draw_to_canvas()
         if(s.infected())
         {
             c = RED;
+        }
+        if(s.immune())
+        {
+            c = GREEN;
         }
 
         _canvas.get()->draw_ellipse(s.x(), s.y(), s.radius(), c);

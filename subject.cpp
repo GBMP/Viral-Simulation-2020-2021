@@ -105,20 +105,20 @@ void Subject::setCurrentCount(int count)
 
 void Subject::setImmune(int count)
 {
-    if(count - _currentCount == 50)
+    if(count - _currentCount == 150)
     {
         this->_immune = true;
         this->_infected = false;
-        _currentCount = 1;
+        _currentCount = count;
     }
 }
 
 void Subject::setReady(int count)
 {
-    if(count - _currentCount == 75)
+    if(count - _currentCount == 450)
     {
         this->_immune = false;
-        _currentCount = 1;
+        _currentCount = 0;
     }
 }
 
