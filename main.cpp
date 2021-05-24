@@ -30,6 +30,7 @@ const int SIM_HEIGHT = 500;
 const int SUBJECT_RADIUS = 2;
 
 int main() {
+    //Set LOCKSTRAT or REGSTRAT as the first argument in the Simulator class to set the strategy
     corsim::Simulation s(corsim::LOCKSTRAT,SIM_WIDTH,SIM_HEIGHT,std::make_unique<corsim::HTMLCanvas>(30,150,SIM_WIDTH,SIM_HEIGHT),
         std::make_unique<corsim::ChartJSHandler>());
 
