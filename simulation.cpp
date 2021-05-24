@@ -84,7 +84,7 @@ void Simulation::tick()
     int i = 1;
     for(Subject& s : _subjects)
     {
-        if(_strategy == corsim::LOCKSTRAT && (i % 4) == 0)
+        if(_strategy == corsim::LOCKSTRAT && (i % 4) != 0)
         {
             strat = &LSTRAT;
         }
@@ -94,7 +94,7 @@ void Simulation::tick()
         }
 
         s.setTrajectory(strat, dt);
-        ++i;
+        i++;
         if(s.infected())
         {
             numberInfected++;
