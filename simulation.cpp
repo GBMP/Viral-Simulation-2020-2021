@@ -94,7 +94,13 @@ void Simulation::tick()
             strat = &RSTRAT;
         }
 
+        if(numberInfected > (_subjects.size() * 0.6) && (i % 4) != 0)
+        {
+            strat = &LSTRAT;
+        }
+
         s.setTrajectory(strat, dt);
+
         i++;
 
         if(s.infected())
