@@ -18,12 +18,18 @@
 #include <iostream>
 #include <emscripten.h>
 #include <math.h>
+#include "LockdownMovementStrategy.cpp"
+#include "RegularMovementStrategy.cpp"
+
+corsim::MovementStrategy *strat;
+corsim::LockdownMovementStrategy LSTRAT;
+corsim::RegularMovementStrategy RSTRAT;
 
 namespace corsim
 {
 
-Simulation::Simulation(int width, int height, std::unique_ptr<Canvas> canvas, std::unique_ptr<StatisticsHandler> sh) : 
-    _sim_width{width}, _sim_height{height}, _canvas{std::move(canvas)}, _sh{std::move(sh)} {}
+Simulation::Simulation(std::string strategy, int width, int height, std::unique_ptr<Canvas> canvas, std::unique_ptr<StatisticsHandler> sh) : 
+    _strategy{strategy}, _sim_width{width}, _sim_height{height}, _canvas{std::move(canvas)}, _sh{std::move(sh)} {}
 
 void Simulation::add_subject(Subject&& s)
 {
@@ -75,12 +81,20 @@ void Simulation::tick()
     }
 
     int numberInfected = 0;
-
+    int i = 1;
     for(Subject& s : _subjects)
     {
-        s.set_x(s.x() + s.dx() * dt);
-        s.set_y(s.y() + s.dy() * dt);
+        if(_strategy == corsim::LOCKSTRAT && (i % 4) == 0)
+        {
+            strat = &LSTRAT;
+        }
+        else
+        {
+            strat = &RSTRAT;
+        }
 
+        s.setTrajectory(strat, dt);
+        ++i;
         if(s.infected())
         {
             numberInfected++;
@@ -91,7 +105,8 @@ void Simulation::tick()
     {
         _sh.get()->communicate_number_infected(counter/30,numberInfected);
     }
-    
+
+    ++i;
 
     draw_to_canvas();
 }

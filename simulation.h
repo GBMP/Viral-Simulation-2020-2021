@@ -33,7 +33,7 @@ namespace corsim
 class Simulation
 {
     public:
-        Simulation(int width, int height, std::unique_ptr<Canvas> canvas, std::unique_ptr<StatisticsHandler> sh);
+        Simulation(std::string strategy, int width, int height, std::unique_ptr<Canvas> canvas, std::unique_ptr<StatisticsHandler> sh);
         void add_subject(Subject&& s);
         void run(); //This method starts the simulation but locks execution because theading is not supported in WASM
     private:
@@ -49,6 +49,7 @@ class Simulation
         bool running = false;
         int tick_speed = 1000/30;
         int _sim_width = 800, _sim_height = 500;
+        std::string _strategy;
 };
 
 }

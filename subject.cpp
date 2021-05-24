@@ -93,4 +93,10 @@ double Subject::speed()
     return sqrt(_dx * _dx + _dy * _dy);
 }
 
+void Subject::setTrajectory(MovementStrategy *strat, double dt)
+{
+    this->set_x(strat->setTrajectory(this->x(), this->dx(), dt));
+    this->set_y(strat->setTrajectory(this->y(), this->dy(), dt));
+}
+
 }

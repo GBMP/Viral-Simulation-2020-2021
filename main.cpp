@@ -14,12 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 #include "simulation.h"
 #include <iostream>
 #include <random>
 #include <math.h>
 #include "html_canvas.h"
 #include "ChartJS_handler.h"
+#include "MovementStrategy.cpp"
 
 //Constants to control the simulation
 const int SUBJECT_COUNT = 200;
@@ -28,7 +30,7 @@ const int SIM_HEIGHT = 500;
 const int SUBJECT_RADIUS = 2;
 
 int main() {
-    corsim::Simulation s(SIM_WIDTH,SIM_HEIGHT,std::make_unique<corsim::HTMLCanvas>(30,150,SIM_WIDTH,SIM_HEIGHT),
+    corsim::Simulation s(corsim::LOCKSTRAT,SIM_WIDTH,SIM_HEIGHT,std::make_unique<corsim::HTMLCanvas>(30,150,SIM_WIDTH,SIM_HEIGHT),
         std::make_unique<corsim::ChartJSHandler>());
 
     //Code to randomly generate certain numbers, which is done by using certain distributions
