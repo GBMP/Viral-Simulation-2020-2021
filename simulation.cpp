@@ -94,7 +94,7 @@ void Simulation::tick()
             strat = &RSTRAT;
         }
 
-        if(numberInfected > (_subjects.size() * 0.6) && (i % 4) != 0 && numberInfected < (_subjects.size() * 0.2))
+        if(numberInfected > (_subjects.size() * 0.6) && (i % 4) != 0)
         {
             strat = &LSTRAT;
         }
