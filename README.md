@@ -14,6 +14,10 @@ And regarding the student number dependent assignment, I got B3, you can find th
 
 I did add a little extra while I was trying out some logic, what this entails is that at certain tresholds a lockdown strategy is set to play.
 
+## **Please note: **
+
+It can happen that the first infected subject (the first red dot) does not collide with a regular subject (a blue dot) in time, so then the first infected subject will turn immune (green). Then you'll need to restart the simulation. 
+
 ---
 
 This code runs a simplistic simulation of a population which can be infected with a virus that spreads between humans. The representation of this population is a cloud of dots, with each dot being a human and called a 'subject' in the simulation. This project is used as the basis for the new assignment that replaces the test for Object Oriented Programming 2. The simulation is written in C++ and is compiled to WebAssembly by using the Emscripten compiler. WebAssembly has gained more traction in recent times, which makes this a good time to learn about and get experience with it. The assignment, instructions and resources follow below.
