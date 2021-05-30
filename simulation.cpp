@@ -21,13 +21,16 @@
 #include "LockdownMovementStrategy.cpp"
 #include "RegularMovementStrategy.cpp"
 
+//initiated the classes for use in this file
 corsim::MovementStrategy *strat;
 corsim::LockdownMovementStrategy LSTRAT;
 corsim::RegularMovementStrategy RSTRAT;
 
 namespace corsim
 {
-
+// Bound the first argument(type of strategy) to variable in the constructor
+// Also added the variables in the simulation.h file
+// More change below in the Tick method
 Simulation::Simulation(std::string strategy, int width, int height, std::unique_ptr<Canvas> canvas, std::unique_ptr<StatisticsHandler> sh) : 
     _strategy{strategy}, _sim_width{width}, _sim_height{height}, _canvas{std::move(canvas)}, _sh{std::move(sh)} {}
 
@@ -53,6 +56,7 @@ void Simulation::run()
 }
 
 int counter  = 0;
+// a global flag to keep track if lockdown is intiatied at certain tresholds
 bool goLockdown = false;
 
 void Simulation::tick()
@@ -68,6 +72,10 @@ void Simulation::tick()
         collision_checker.emplace_back(&s);
 
         wall_collision(s);
+
+        // a new method where we validate if a subject is infected or immune and for how long
+        // if a the subject is infected for a cetain time, it will turn immune for a certain time
+        // and then back to being vulnerable, see method below
         subject_better(s);
     }
 
@@ -83,11 +91,15 @@ void Simulation::tick()
     }
 
     int numberInfected = 0;
+    //created a integer variable to track iterations in the for loop
     int i = 1;
 
     for(Subject& s : _subjects)
     {
-
+        // if the lockdownstrategy was choses or lockdown was triggred because of too many infections
+        // the first condition will pass on the 75% 
+        // of the population as the modulo of 4 on the current iterated subject is not equal to 0
+        // else the regularstrategy is set on the subject in the SetTrajectory method
         if((_strategy == corsim::LOCKSTRAT || goLockdown) && (i % 4) != 0)
         {
             strat = &LSTRAT;
@@ -97,9 +109,11 @@ void Simulation::tick()
             strat = &RSTRAT;
         }
 
-
+        // the trajectory is set on the subject based on the chosen strategy. The starting coordinates and the direction of the subject is
+        // set at random in the main.cpp class, this hasnt changed with the code we received.
         s.setTrajectory(strat, dt);
 
+        //count iteration
         i++;
 
         if(s.infected())
@@ -108,6 +122,8 @@ void Simulation::tick()
         }
     }
 
+    // something extra i wanted to add was a lockdown strategy when more then 60% of the population was infected.
+    // When the infections drop below 15% of the population, the lockdown is lifted.
     if(numberInfected > (_subjects.size() * 0.6))
     {
         goLockdown = true;
@@ -182,9 +198,15 @@ double distance(Subject& s1, Subject& s2)
 
 void Simulation::subject_better(Subject& s)
 {
+    //if subject is infected we a set the current counter in this simulation as a argument to a method in the subject class. We use that  count 
+    // to compare to the current counter value on the subject it self which is set on infect(see subject_collision method below)
+    // to determine how long a subject can be sick/infectious for
     if(s.infected()){
         s.setImmune(counter);
     }
+
+    // if subject is immune, we use the setready method to track for how long the subject is immune and if it passes a certain amount of time we reset the subject
+    // to be vulnerable again and so the loops start again.
 
     if(s.immune()){
         s.setReady(counter);
@@ -197,8 +219,12 @@ void Simulation::subject_collision(Subject& s1, Subject& s2)
 
     if(dist < s1.radius() + s2.radius())
     {
+        // if one of the subjects in a collions is infected and none are immune
+        // the other will get infected and at the same time we set the current counter value from the simulation 
+        // as a base counter value on the subject so we can use it to track time
         if((s1.infected() || s2.infected()) && (!s1.immune() || !s2.immune()))
         {
+
             s1.infect(true);
             s1.setCurrentCount(counter);
             s2.infect(true);

@@ -98,11 +98,16 @@ double Subject::speed()
     return sqrt(_dx * _dx + _dy * _dy);
 }
 
+//method to set the currentCounter from the running simulation on the subject
 void Subject::setCurrentCount(int count)
 {
     this->_currentCount = count;
 }
 
+// The setimmune method compares the current counter value from the simulator class to the currentcounter value that was set on infection on the subject
+// if that comparison passes a certain amount
+// the subject is set to immune and false on infected
+// the currentcounter on the subject is set to the argument passed so we can start tracking the immune period
 void Subject::setImmune(int count)
 {
     if(count - _currentCount == 150)
@@ -113,6 +118,9 @@ void Subject::setImmune(int count)
     }
 }
 
+// the setReady method resets the subject back to normal so that it can be infected again
+// the counter from the running simulation class is used to compare to the currentCounter that was set when the subject was made immune
+// if the condition passes, the immune value is set back to false and the currentCounter on the subject is reseted.
 void Subject::setReady(int count)
 {
     if(count - _currentCount == 750)
@@ -122,6 +130,8 @@ void Subject::setReady(int count)
     }
 }
 
+//the setTrajectory is the overwritten classe from the interface, it set the coordiantes, direction adn the speed on the graphics whenever it is iterated over
+// depending on the strategy class that is passed in the modded, the correct value is returned.
 void Subject::setTrajectory(MovementStrategy *strat, double dt)
 {
     this->set_x(strat->setTrajectory(this->x(), this->dx(), dt));

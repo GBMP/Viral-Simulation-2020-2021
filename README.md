@@ -1,5 +1,19 @@
 # Viral Simulation Assignment
 
+## **Update**
+
+For my assignment you can start by readying the comments in the main.cpp file and continue from there to the affected classes. The reason we start the main.cpp file is because you set with what strategie you want to run the simulation(first argument in the simulation class):
+
+CORSIM::LOCKSTRAT
+
+or
+
+CORSIMM::REGSTRAT
+
+And for the student number dependent assignment, in which i got B3, you can find the start of the comments in the simulation.cpp/tick method. I did add a little extra while i was trying some logics out, at certain tresholds a lockdown strategy is set te play.
+
+---
+
 This code runs a simplistic simulation of a population which can be infected with a virus that spreads between humans. The representation of this population is a cloud of dots, with each dot being a human and called a 'subject' in the simulation. This project is used as the basis for the new assignment that replaces the test for Object Oriented Programming 2. The simulation is written in C++ and is compiled to WebAssembly by using the Emscripten compiler. WebAssembly has gained more traction in recent times, which makes this a good time to learn about and get experience with it. The assignment, instructions and resources follow below.
 
 ## **Assignment**
