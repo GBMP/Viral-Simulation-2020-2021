@@ -1,4 +1,4 @@
-//Header file for our lockdownmovement strategy
+// Header file for my LockdownMovementStrategy class
 #pragma once
 
 #include "MovementStrategy.cpp"

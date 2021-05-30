@@ -1,4 +1,4 @@
-//return values for overwrite from our overwritten method from the interface
+// Return values from my overwritten method from the Interface class
 #include "LockdownMovementStrategy.h"
 
 namespace corsim

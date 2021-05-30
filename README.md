@@ -1,8 +1,8 @@
 # Viral Simulation Assignment
 
-## **Update**
+## **Update from Susanne**
 
-For my assignment you can start by readying the comments in the main.cpp file and continue from there to the affected classes. The reason we start the main.cpp file is because you set with what strategie you want to run the simulation(first argument in the simulation class):
+For my main assignment you can start by reading the comments in the main.cpp file and continue from there to the affected classes. The reason I start in the main.cpp file is because that's where you choose/set which strategy you want to run in the simulation(first argument in the simulation class). You can choose between these two variables:
 
 CORSIM::LOCKSTRAT
 
@@ -10,7 +10,9 @@ or
 
 CORSIMM::REGSTRAT
 
-And for the student number dependent assignment, in which i got B3, you can find the start of the comments in the simulation.cpp/tick method. I did add a little extra while i was trying some logics out, at certain tresholds a lockdown strategy is set te play.
+And regarding the student number dependent assignment, I got B3, you can find the start of the comments in the simulation.cpp/tick method. 
+
+I did add a little extra while I was trying out some logic, what this entails is that at certain tresholds a lockdown strategy is set to play.
 
 ---
 

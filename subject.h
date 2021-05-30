@@ -42,7 +42,7 @@ class Subject
         double angle();
         double speed();
 
-        //set of initiated variables
+        // Set of initiated variables
         bool immune();
         void setReady(int count);
         void setImmune(int count);
@@ -53,7 +53,7 @@ class Subject
         double _x = 0,_y = 0, _dx = 0, _dy = 0;
         bool _infected = false;
         int _radius = 0;
-        //set of created fields
+        // Set of created fields
         int _currentCount = 0;
         bool _immune = false;
 };

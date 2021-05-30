@@ -1,4 +1,4 @@
-//Header file for our Regularmovement strategy
+// Header file for my RegularMovementStrategy class
 #pragma once
 
 #include "MovementStrategy.cpp"

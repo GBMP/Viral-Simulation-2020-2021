@@ -21,14 +21,14 @@
 #include "LockdownMovementStrategy.cpp"
 #include "RegularMovementStrategy.cpp"
 
-//initiated the classes for use in this file
+// Initiated an instance of the Stategy classes for use in this file
 corsim::MovementStrategy *strat;
 corsim::LockdownMovementStrategy LSTRAT;
 corsim::RegularMovementStrategy RSTRAT;
 
 namespace corsim
 {
-// Bound the first argument(type of strategy) to variable in the constructor
+// Bound the first argument (type of strategy) to variable in the constructor
 // Also added the variables in the simulation.h file
 // More change below in the Tick method
 Simulation::Simulation(std::string strategy, int width, int height, std::unique_ptr<Canvas> canvas, std::unique_ptr<StatisticsHandler> sh) : 
@@ -56,7 +56,7 @@ void Simulation::run()
 }
 
 int counter  = 0;
-// a global flag to keep track if lockdown is intiatied at certain tresholds
+// A global flag to keep track if lockdown is initiated at certain tresholds
 bool goLockdown = false;
 
 void Simulation::tick()
@@ -73,9 +73,9 @@ void Simulation::tick()
 
         wall_collision(s);
 
-        // a new method where we validate if a subject is infected or immune and for how long
-        // if a the subject is infected for a cetain time, it will turn immune for a certain time
-        // and then back to being vulnerable, see method below
+        // A new method where I validate if a subject is infected or immune and for how long
+        // If the subject is infected for a cetain time, as soons as that time has passed, it will turn immune for a new certain time.
+        // And then goes back to being vulnerable, until infected agian.  See method below
         subject_better(s);
     }
 
@@ -91,15 +91,14 @@ void Simulation::tick()
     }
 
     int numberInfected = 0;
-    //created a integer variable to track iterations in the for loop
+    // Created a integer variable to track iterations in the for loop
     int i = 1;
 
     for(Subject& s : _subjects)
     {
-        // if the lockdownstrategy was choses or lockdown was triggred because of too many infections
-        // the first condition will pass on the 75% 
-        // of the population as the modulo of 4 on the current iterated subject is not equal to 0
-        // else the regularstrategy is set on the subject in the SetTrajectory method
+        // If the LockdownStrategy was chosen or lockdown was triggered because of too many infections,
+        // the first condition will pass on the 75% of the population as the modulo of 4 on the current iterated subject is not equal to 0.
+        // Else the RegularMovementStrategy is set on the subject in the SetTrajectory method
         if((_strategy == corsim::LOCKSTRAT || goLockdown) && (i % 4) != 0)
         {
             strat = &LSTRAT;
@@ -109,11 +108,11 @@ void Simulation::tick()
             strat = &RSTRAT;
         }
 
-        // the trajectory is set on the subject based on the chosen strategy. The starting coordinates and the direction of the subject is
-        // set at random in the main.cpp class, this hasnt changed with the code we received.
+        // The trajectory is set on the subject based on the chosen strategy. The starting coordinates and the direction of the subject is
+        // set at random in the main.cpp class, this hasn't changed with the code I received.
         s.setTrajectory(strat, dt);
 
-        //count iteration
+        // Count iteration
         i++;
 
         if(s.infected())
@@ -122,7 +121,7 @@ void Simulation::tick()
         }
     }
 
-    // something extra i wanted to add was a lockdown strategy when more then 60% of the population was infected.
+    // Something extra I wanted to add was a lockdown strategy when more then 60% of the population is infected.
     // When the infections drop below 15% of the population, the lockdown is lifted.
     if(numberInfected > (_subjects.size() * 0.6))
     {
@@ -198,14 +197,14 @@ double distance(Subject& s1, Subject& s2)
 
 void Simulation::subject_better(Subject& s)
 {
-    //if subject is infected we a set the current counter in this simulation as a argument to a method in the subject class. We use that  count 
-    // to compare to the current counter value on the subject it self which is set on infect(see subject_collision method below)
-    // to determine how long a subject can be sick/infectious for
+    // If the subject is infected I set the current counter value in this simulation as a argument to the method in the subject class. I use that count 
+    // to compare to the currentCount value on the subject itself, which is set on infection (see subject_collision method below), 
+    // to determine how long a subject can be sick/infectious for.
     if(s.infected()){
         s.setImmune(counter);
     }
 
-    // if subject is immune, we use the setready method to track for how long the subject is immune and if it passes a certain amount of time we reset the subject
+    // If the subject is immune, we use the setReady method to track how long the subject is immune, and if it passes a certain amount of count/time, we reset the subject
     // to be vulnerable again and so the loops start again.
 
     if(s.immune()){
@@ -219,9 +218,9 @@ void Simulation::subject_collision(Subject& s1, Subject& s2)
 
     if(dist < s1.radius() + s2.radius())
     {
-        // if one of the subjects in a collions is infected and none are immune
+        // If one of the subjects in the collion is infected && none are immune,
         // the other will get infected and at the same time we set the current counter value from the simulation 
-        // as a base counter value on the subject so we can use it to track time
+        // as a base counter value on the subject (currentCount), so we can use it to track time
         if((s1.infected() || s2.infected()) && (!s1.immune() || !s2.immune()))
         {
 
