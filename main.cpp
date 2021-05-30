@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+#include "RegularMovementStrategy.h"
 #include "simulation.h"
 #include <iostream>
 #include <random>

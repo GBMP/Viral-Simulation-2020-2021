@@ -115,7 +115,7 @@ void Subject::setImmune(int count)
 
 void Subject::setReady(int count)
 {
-    if(count - _currentCount == 450)
+    if(count - _currentCount == 750)
     {
         this->_immune = false;
         _currentCount = 0;

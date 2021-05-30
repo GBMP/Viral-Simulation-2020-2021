@@ -53,6 +53,7 @@ void Simulation::run()
 }
 
 int counter  = 0;
+bool goLockdown = false;
 
 void Simulation::tick()
 {
@@ -83,9 +84,11 @@ void Simulation::tick()
 
     int numberInfected = 0;
     int i = 1;
+
     for(Subject& s : _subjects)
     {
-        if(_strategy == corsim::LOCKSTRAT && (i % 4) != 0)
+
+        if((_strategy == corsim::LOCKSTRAT || goLockdown) && (i % 4) != 0)
         {
             strat = &LSTRAT;
         }
@@ -94,10 +97,6 @@ void Simulation::tick()
             strat = &RSTRAT;
         }
 
-        if(numberInfected > (_subjects.size() * 0.6) && (i % 4) != 0)
-        {
-            strat = &LSTRAT;
-        }
 
         s.setTrajectory(strat, dt);
 
@@ -109,12 +108,20 @@ void Simulation::tick()
         }
     }
 
+    if(numberInfected > (_subjects.size() * 0.6))
+    {
+        goLockdown = true;
+        
+    }
+    else if (numberInfected < (_subjects.size() * 0.15)) 
+    {
+        goLockdown = false;
+    }
+
     if(counter % 30 == 0)
     {
         _sh.get()->communicate_number_infected(counter/30,numberInfected);
     }
-
-    ++i;
 
     draw_to_canvas();
 }
